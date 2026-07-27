@@ -51,7 +51,9 @@
     "order_book_top": 1
   },
   "telegram": {
-    "enabled": false
+    "enabled": false,
+    "token": "disabled",
+    "chat_id": "disabled"
   },
   "internals": {
     "process_throttle_secs": 5
