@@ -1,0 +1,28 @@
+services:
+  lead-lag:
+    image: freqtradeorg/freqtrade:2026.6@sha256:d451af021d5e08b70580c0eea5848534e9846b57391b34821c0a5814416397e6
+    init: true
+    restart: "no"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    working_dir: /freqtrade
+    volumes:
+      - ./user_data:/freqtrade/user_data
+      - ../src:/workspace/src:ro
+    environment:
+      PYTHONPATH: /workspace/src
+      LEAD_LAG_RISK_STATE_PATH: /freqtrade/user_data/data/lead_lag_risk_state.json
+      LEAD_LAG_AUDIT_PATH: /freqtrade/user_data/logs/lead_lag_execution.jsonl
+    ports:
+      - "127.0.0.1:8080:8080"
+    stop_grace_period: 30s
+    command:
+      - trade
+      - --config
+      - /freqtrade/user_data/config_lead_lag_4h.json
+      - --strategy-path
+      - /freqtrade/user_data/strategies
+      - --strategy
+      - BtcImpulseAltLag4hV1
